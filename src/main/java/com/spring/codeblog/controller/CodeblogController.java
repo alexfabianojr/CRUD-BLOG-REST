@@ -42,13 +42,14 @@ public class CodeblogController {
         return "postForm";
     }
 
-    @RequestMapping(value = "/newpost", method = RequestMethod.GET)
+    @RequestMapping(value = "/newpost", method = RequestMethod.POST)
     public String savePost(@Valid Post post, BindingResult result, RedirectAttributes attributes) {
         if (result.hasErrors()) {
-            return "redirect/newpost";
+            attributes.addFlashAttribute("mensagem", "Verifique se os campos obrigatórios foram preenchidos!");
+            return "redirect:/newpost";
         }
         post.setLocalDate(LocalDate.now());
         codeblogService.save(post);
-        return "redirect/posts";
+        return "redirect:/posts";
     }
 }
